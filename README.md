@@ -25,6 +25,14 @@ Built for **Cortensor Hackathon #5** (`https://dorahacks.io/hackathon/2418/detai
 
 ---
 
+## Upstream Contribution to OpenMinion (merged)
+
+- **Fix PR:** [openminion/openminion#722](https://github.com/openminion/openminion/pull/722) — *fix(runtime): abort approval-wait cancellation before terminal completion*. Merged into `dev` by @wireindevice on 2026-11-11 after three review rounds.
+- **Bug:** [openminion/openminion#527](https://github.com/openminion/openminion/issues/527) — cancelling a turn while it waits on operator approval could still persist `status="completed"` / `run.completed`. The issue was reported by @Afar88 and triaged by the OpenMinion team; #722 is the fix.
+- **What changed:** cancellation during an approval wait now raises `asyncio.CancelledError` all the way through. That covers the daemon approval callback, the thread-bridged `_sync_approval_callback`, and inline tool-approval replay. The turn is recorded as `cancelled` instead of being treated as an operator denial or a completed run. Regression tests cover the daemon, the bridge, and terminal persistence.
+
+---
+
 ## Architecture
 
 ```mermaid
